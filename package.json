@@ -1,0 +1,47 @@
+{
+  "name": "iot-elements-node",
+  "version": "1.0.0",
+  "description": "Collections of HTML/DOM elements for IoT systems by domain (home, retail, hospitality, etc.).",
+  "author": "Alvaro Fernandez ( domiot.org )",
+  "license": "MIT",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./hospitality": "./hospitality/index.js",
+    "./home": "./home/index.js",
+    "./retail": "./retail/index.js"
+  },
+  "files": [
+    "index.js",
+    "HTMLElementFactoryCollection.js",
+    "hospitality/",
+    "home/",
+    "retail/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "HTML",
+    "DOM",
+    "IoT",
+    "DOMIoT",
+    "elements",
+    "web-components",
+    "smart-home",
+    "smart-hotel",
+    "smart-building",
+    "smart-shop"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domiot-io/iot-elements-node.git"
+  },
+  "homepage": "https://github.com/domiot-io/iot-elements-node#readme",
+  "bugs": {
+    "url": "https://github.com/domiot-io/iot-elements-node/issues"
+  }
+}
