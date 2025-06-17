@@ -1,6 +1,6 @@
 {
   "name": "iot-elements-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collections of HTML/DOM elements for IoT systems by domain (home, retail, hospitality, etc.).",
   "author": "Alvaro Fernandez ( domiot.org )",
   "license": "MIT",

@@ -30,8 +30,6 @@ const createHTMLIoTDoorElement = (window) => {
 
         // Property setter for locked state
         set locked(value) {
-            const wasLocked = this.locked;
-            
             if (value) {
                 this.setAttribute('locked', '');
             } else {
